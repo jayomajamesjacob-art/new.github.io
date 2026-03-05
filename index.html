@@ -23,6 +23,8 @@
             --bg-dark: #0a0a0a;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
         }
 
         * {
@@ -31,6 +33,7 @@
             box-sizing: border-box;
         }
 
+        /* Hide default cursor */
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #1a1a2e);
@@ -39,6 +42,98 @@
             font-family: 'Inter', sans-serif;
             color: #ffffff;
             overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom Cursor Styles */
+        .cursor {
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 2px solid var(--primary-glow);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s, mix-blend-mode 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-glow);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+        }
+
+        .cursor-trail {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease-out, height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0.5;
+        }
+
+        /* Cursor hover states */
+        .cursor.hover {
+            width: var(--cursor-hover-size);
+            height: var(--cursor-hover-size);
+            background: rgba(0, 242, 255, 0.1);
+            border-color: transparent;
+            mix-blend-mode: normal;
+            backdrop-filter: blur(2px);
+        }
+
+        .cursor.hover::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--primary-glow);
+            animation: cursorPulse 1.5s ease-out infinite;
+        }
+
+        .cursor-dot.hover {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary-glow);
+            box-shadow: 0 0 15px var(--secondary-glow), 0 0 30px var(--secondary-glow);
+        }
+
+        @keyframes cursorPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Click effect */
+        .cursor.clicking {
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 242, 255, 0.3);
+        }
+
+        .cursor-dot.clicking {
+            transform: translate(-50%, -50%) scale(0.5);
         }
 
         /* Animated Background Particles */
@@ -114,7 +209,7 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            cursor: pointer;
+            cursor: none; /* Hide default cursor */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -145,10 +240,16 @@
 
         .social-btn i {
             transition: transform 0.3s ease;
+            pointer-events: none;
         }
 
         .social-btn:hover i {
             transform: rotate(360deg);
+        }
+
+        /* Magnetic effect for buttons */
+        .magnetic {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* PROFILE SECTION */
@@ -161,6 +262,7 @@
             position: relative;
             display: inline-block;
             margin-bottom: 25px;
+            cursor: none;
         }
 
         .profile-img {
@@ -253,6 +355,7 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: floatBox 5s ease-in-out infinite;
+            cursor: none;
         }
 
         .info-card::before {
@@ -297,6 +400,7 @@
             font-size: 24px;
             margin-bottom: 20px;
             color: white;
+            pointer-events: none;
         }
 
         .info-card h2 {
@@ -305,6 +409,7 @@
             font-weight: 600;
             margin-bottom: 15px;
             color: #ffffff;
+            pointer-events: none;
         }
 
         .info-card p {
@@ -312,6 +417,7 @@
             line-height: 1.6;
             margin-bottom: 10px;
             font-size: 0.95rem;
+            pointer-events: none;
         }
 
         .info-card strong {
@@ -324,6 +430,7 @@
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 15px;
+            pointer-events: none;
         }
 
         .skill-tag {
@@ -336,11 +443,6 @@
             transition: all 0.3s ease;
         }
 
-        .skill-tag:hover {
-            background: rgba(0, 242, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
         /* Gradient Animation */
         @keyframes gradientMove {
             0% { background-position: 0% 50%; }
@@ -350,6 +452,11 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            :root {
+                --cursor-size: 15px;
+                --cursor-hover-size: 40px;
+            }
+
             .social-nav {
                 flex-direction: row;
                 top: 20px;
@@ -363,6 +470,19 @@
 
             .info-grid {
                 grid-template-columns: 1fr;
+            }
+
+            /* Show default cursor on mobile */
+            body {
+                cursor: auto;
+            }
+            
+            .cursor, .cursor-dot, .cursor-trail {
+                display: none;
+            }
+
+            .social-btn, .profile-img-wrapper, .info-card {
+                cursor: pointer;
             }
         }
 
@@ -379,22 +499,33 @@
             background: linear-gradient(var(--primary-glow), var(--secondary-glow));
             border-radius: 5px;
         }
+
+        /* Text selection styling */
+        ::selection {
+            background: rgba(0, 242, 255, 0.3);
+            color: white;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-trail" id="cursor-trail"></div>
 
     <!-- Background Particles -->
     <div class="particles" id="particles"></div>
 
     <!-- Social Navigation -->
     <nav class="social-nav" aria-label="Social media links">
-        <button class="social-btn" onclick="openLink('https://www.instagram.com/jamesssszzzzzzzzzz/')" aria-label="Instagram">
+        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.instagram.com/jamesssszzzzzzzzzz/')" aria-label="Instagram">
             <i class="bi bi-instagram"></i>
         </button>
-        <button class="social-btn" onclick="openLink('https://www.facebook.com/profile.php?id=61577119934394')" aria-label="Facebook">
+        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.facebook.com/profile.php?id=61577119934394')" aria-label="Facebook">
             <i class="bi bi-facebook"></i>
         </button>
-        <button class="social-btn" onclick="openLink('https://www.tiktok.com/@jamesischill')" aria-label="TikTok">
+        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.tiktok.com/@jamesischill')" aria-label="TikTok">
             <i class="bi bi-tiktok"></i>
         </button>
     </nav>
@@ -403,7 +534,7 @@
     <section class="hero">
         
         <div class="profile-container">
-            <div class="profile-img-wrapper">
+            <div class="profile-img-wrapper" data-hover>
                 <img class="profile-img" src="prof img.png" alt="James Jacob V. Jayoma - Profile Photo">
             </div>
             
@@ -415,7 +546,7 @@
 
         <div class="info-grid">
             
-            <article class="info-card">
+            <article class="info-card" data-hover>
                 <div class="card-icon">
                     <i class="bi bi-person-fill"></i>
                 </div>
@@ -423,7 +554,7 @@
                 <p>Hi! I'm James Jacob V. Jayoma, a passionate programmer focused on creating beautiful, functional web experiences. I love turning ideas into reality through code.</p>
             </article>
 
-            <article class="info-card">
+            <article class="info-card" data-hover>
                 <div class="card-icon">
                     <i class="bi bi-code-slash"></i>
                 </div>
@@ -437,7 +568,7 @@
                 </div>
             </article>
 
-            <article class="info-card">
+            <article class="info-card" data-hover>
                 <div class="card-icon">
                     <i class="bi bi-envelope-fill"></i>
                 </div>
@@ -471,11 +602,143 @@
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', createParticles);
+        // Custom Cursor Logic
+        class CustomCursor {
+            constructor() {
+                this.cursor = document.getElementById('cursor');
+                this.cursorDot = document.getElementById('cursor-dot');
+                this.cursorTrail = document.getElementById('cursor-trail');
+                
+                this.mouseX = 0;
+                this.mouseY = 0;
+                this.cursorX = 0;
+                this.cursorY = 0;
+                this.trailX = 0;
+                this.trailY = 0;
+                
+                this.isActive = true;
+                this.rafId = null;
+                
+                this.init();
+            }
 
-        // Smooth scroll behavior
-        document.documentElement.style.scrollBehavior = 'smooth';
+            init() {
+                // Check if touch device
+                if (window.matchMedia('(pointer: coarse)').matches) {
+                    this.isActive = false;
+                    return;
+                }
+
+                document.addEventListener('mousemove', (e) => {
+                    this.mouseX = e.clientX;
+                    this.mouseY = e.clientY;
+                });
+
+                document.addEventListener('mousedown', () => {
+                    this.cursor.classList.add('clicking');
+                    this.cursorDot.classList.add('clicking');
+                });
+
+                document.addEventListener('mouseup', () => {
+                    this.cursor.classList.remove('clicking');
+                    this.cursorDot.classList.remove('clicking');
+                });
+
+                // Hover effects
+                this.setupHoverEffects();
+                
+                // Magnetic effect for buttons
+                this.setupMagneticEffect();
+                
+                // Start animation loop
+                this.animate();
+            }
+
+            setupHoverEffects() {
+                const hoverElements = document.querySelectorAll('[data-hover], .social-btn, .info-card, .profile-img-wrapper');
+                
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        this.cursor.classList.add('hover');
+                        this.cursorDot.classList.add('hover');
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        this.cursor.classList.remove('hover');
+                        this.cursorDot.classList.remove('hover');
+                    });
+                });
+            }
+
+            setupMagneticEffect() {
+                const magneticElements = document.querySelectorAll('[data-magnetic]');
+                
+                magneticElements.forEach(el => {
+                    el.addEventListener('mousemove', (e) => {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        
+                        el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        el.style.transform = '';
+                    });
+                });
+            }
+
+            animate() {
+                if (!this.isActive) return;
+
+                // Smooth follow for main cursor
+                this.cursorX += (this.mouseX - this.cursorX) * 0.15;
+                this.cursorY += (this.mouseY - this.cursorY) * 0.15;
+                
+                // Faster follow for dot
+                const dotX = this.mouseX;
+                const dotY = this.mouseY;
+                
+                // Slower follow for trail
+                this.trailX += (this.mouseX - this.trailX) * 0.08;
+                this.trailY += (this.mouseY - this.trailY) * 0.08;
+
+                this.cursor.style.left = this.cursorX + 'px';
+                this.cursor.style.top = this.cursorY + 'px';
+                
+                this.cursorDot.style.left = dotX + 'px';
+                this.cursorDot.style.top = dotY + 'px';
+                
+                this.cursorTrail.style.left = this.trailX + 'px';
+                this.cursorTrail.style.top = this.trailY + 'px';
+
+                this.rafId = requestAnimationFrame(() => this.animate());
+            }
+
+            destroy() {
+                if (this.rafId) {
+                    cancelAnimationFrame(this.rafId);
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Initialize custom cursor
+            const cursor = new CustomCursor();
+            
+            // Smooth scroll behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+
+        // Handle visibility change to save resources
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause animations when tab is hidden
+            }
+        });
     </script>
 
 </body>
