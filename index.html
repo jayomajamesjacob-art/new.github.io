@@ -23,8 +23,6 @@
             --bg-dark: #0a0a0a;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --cursor-size: 20px;
-            --cursor-hover-size: 60px;
         }
 
         * {
@@ -33,7 +31,6 @@
             box-sizing: border-box;
         }
 
-        /* Hide default cursor */
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #1a1a2e);
@@ -42,92 +39,6 @@
             font-family: 'Inter', sans-serif;
             color: #ffffff;
             overflow-x: hidden;
-            cursor: none;
-        }
-
-        /* Custom Cursor Styles */
-        .cursor {
-            width: var(--cursor-size);
-            height: var(--cursor-size);
-            border: 2px solid var(--primary-glow);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s, mix-blend-mode 0.3s;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--primary-glow);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
-        }
-
-        .cursor-trail {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s ease-out, height 0.5s ease-out, opacity 0.5s ease-out;
-            opacity: 0.5;
-        }
-
-        /* Cursor hover states */
-        .cursor.hover {
-            width: var(--cursor-hover-size);
-            height: var(--cursor-hover-size);
-            background: rgba(0, 242, 255, 0.1);
-            border-color: transparent;
-            mix-blend-mode: normal;
-            backdrop-filter: blur(2px);
-        }
-
-        .cursor.hover::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--primary-glow);
-            animation: cursorPulse 1.5s ease-out infinite;
-        }
-
-        .cursor-dot.hover {
-            width: 8px;
-            height: 8px;
-            background: var(--secondary-glow);
-            box-shadow: 0 0 15px var(--secondary-glow), 0 0 30px var(--secondary-glow);
-        }
-
-        @keyframes cursorPulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-        }
-
-        /* Click effect */
-        .cursor.clicking {
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(0, 242, 255, 0.3);
-        }
-
-        .cursor-dot.clicking {
-            transform: translate(-50%, -50%) scale(0.5);
         }
 
         /* Animated Background Particles */
@@ -152,10 +63,20 @@
         }
 
         @keyframes float-particle {
-            from { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            to { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
         }
 
         /* HERO SECTION */
@@ -193,7 +114,7 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            cursor: none;
+            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -224,16 +145,10 @@
 
         .social-btn i {
             transition: transform 0.3s ease;
-            pointer-events: none;
         }
 
         .social-btn:hover i {
             transform: rotate(360deg);
-        }
-
-        /* Magnetic effect for buttons */
-        .magnetic {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* PROFILE SECTION */
@@ -246,7 +161,6 @@
             position: relative;
             display: inline-block;
             margin-bottom: 25px;
-            cursor: none;
         }
 
         .profile-img {
@@ -277,9 +191,19 @@
             animation: pulse 3s ease-in-out infinite;
         }
 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.05); opacity: 0.5; }
+        }
+
         .profile-img:hover {
             transform: scale(1.05);
             box-shadow: 0 0 60px rgba(0, 242, 255, 0.6);
+        }
+
+        @keyframes floatPhoto {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
         /* NAME & TITLE */
@@ -304,6 +228,11 @@
             text-transform: uppercase;
         }
 
+        @keyframes floatName {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
         /* INFO CARDS */
         .info-grid {
             display: grid;
@@ -324,7 +253,6 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: floatBox 5s ease-in-out infinite;
-            cursor: none;
         }
 
         .info-card::before {
@@ -338,6 +266,10 @@
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
+
+        .info-card:nth-child(1) { animation-delay: 0s; }
+        .info-card:nth-child(2) { animation-delay: 0.5s; }
+        .info-card:nth-child(3) { animation-delay: 1s; }
 
         @keyframes floatBox {
             0%, 100% { transform: translateY(0px); }
@@ -354,15 +286,59 @@
             transform: scaleX(1);
         }
 
-        /* Mobile "touch hover" effect */
-        .touch-hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(0, 242, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 242, 255, 0.1);
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
         }
 
-        .touch-hover::before {
-            transform: scaleX(1);
+        .info-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .info-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .info-card strong {
+            color: var(--primary-glow);
+            font-weight: 500;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary-glow);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 242, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Gradient Animation */
@@ -374,11 +350,6 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            :root {
-                --cursor-size: 15px;
-                --cursor-hover-size: 40px;
-            }
-
             .social-nav {
                 flex-direction: row;
                 top: 20px;
@@ -392,19 +363,6 @@
 
             .info-grid {
                 grid-template-columns: 1fr;
-            }
-
-            /* Show default cursor on mobile */
-            body {
-                cursor: auto;
-            }
-            
-            .cursor, .cursor-dot, .cursor-trail {
-                display: none;
-            }
-
-            .social-btn, .profile-img-wrapper, .info-card {
-                cursor: pointer;
             }
         }
 
@@ -421,41 +379,31 @@
             background: linear-gradient(var(--primary-glow), var(--secondary-glow));
             border-radius: 5px;
         }
-
-        /* Text selection styling */
-        ::selection {
-            background: rgba(0, 242, 255, 0.3);
-            color: white;
-        }
     </style>
 </head>
 <body>
-
-    <!-- Custom Cursor Elements -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-trail" id="cursor-trail"></div>
 
     <!-- Background Particles -->
     <div class="particles" id="particles"></div>
 
     <!-- Social Navigation -->
     <nav class="social-nav" aria-label="Social media links">
-        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.instagram.com/jamesssszzzzzzzzzz/')" aria-label="Instagram">
+        <button class="social-btn" onclick="openLink('https://www.instagram.com/jamesssszzzzzzzzzz/')" aria-label="Instagram">
             <i class="bi bi-instagram"></i>
         </button>
-        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.facebook.com/profile.php?id=61577119934394')" aria-label="Facebook">
+        <button class="social-btn" onclick="openLink('https://www.facebook.com/profile.php?id=61577119934394')" aria-label="Facebook">
             <i class="bi bi-facebook"></i>
         </button>
-        <button class="social-btn magnetic" data-magnetic onclick="openLink('https://www.tiktok.com/@jamesischill')" aria-label="TikTok">
+        <button class="social-btn" onclick="openLink('https://www.tiktok.com/@jamesischill')" aria-label="TikTok">
             <i class="bi bi-tiktok"></i>
         </button>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
+        
         <div class="profile-container">
-            <div class="profile-img-wrapper" data-hover>
+            <div class="profile-img-wrapper">
                 <img class="profile-img" src="prof img.png" alt="James Jacob V. Jayoma - Profile Photo">
             </div>
             
@@ -466,7 +414,8 @@
         </div>
 
         <div class="info-grid">
-            <article class="info-card" data-hover>
+            
+            <article class="info-card">
                 <div class="card-icon">
                     <i class="bi bi-person-fill"></i>
                 </div>
@@ -474,7 +423,7 @@
                 <p>Hi! I'm James Jacob V. Jayoma, a passionate programmer focused on creating beautiful, functional web experiences. I love turning ideas into reality through code.</p>
             </article>
 
-            <article class="info-card" data-hover>
+            <article class="info-card">
                 <div class="card-icon">
                     <i class="bi bi-code-slash"></i>
                 </div>
@@ -488,7 +437,7 @@
                 </div>
             </article>
 
-            <article class="info-card" data-hover>
+            <article class="info-card">
                 <div class="card-icon">
                     <i class="bi bi-envelope-fill"></i>
                 </div>
@@ -496,17 +445,22 @@
                 <p><strong>Email:</strong> jayomajamesjacob@gmail.com</p>
                 <p><strong>Phone:</strong> +63 956 268 6423</p>
             </article>
+
         </div>
+
     </section>
 
     <script>
+        // Open links in new tab
         function openLink(url) {
             window.open(url, '_blank', 'noopener,noreferrer');
         }
 
+        // Create floating particles
         function createParticles() {
             const container = document.getElementById('particles');
             const particleCount = 50;
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -517,111 +471,11 @@
             }
         }
 
-        class CustomCursor {
-            constructor() {
-                this.cursor = document.getElementById('cursor');
-                this.cursorDot = document.getElementById('cursor-dot');
-                this.cursorTrail = document.getElementById('cursor-trail');
-                
-                this.mouseX = 0;
-                this.mouseY = 0;
-                this.cursorX = 0;
-                this.cursorY = 0;
-                this.trailX = 0;
-                this.trailY = 0;
-                
-                this.isActive = true;
-                this.rafId = null;
-                
-                this.init();
-            }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', createParticles);
 
-            init() {
-                if (window.matchMedia('(pointer: coarse)').matches) {
-                    this.isActive = false;
-                    return;
-                }
-
-                document.addEventListener('mousemove', (e) => {
-                    this.mouseX = e.clientX;
-                    this.mouseY = e.clientY;
-                });
-
-                document.addEventListener('mousedown', () => {
-                    this.cursor.classList.add('clicking');
-                    this.cursorDot.classList.add('clicking');
-                });
-
-                document.addEventListener('mouseup', () => {
-                    this.cursor.classList.remove('clicking');
-                    this.cursorDot.classList.remove('clicking');
-                });
-
-                this.setupHoverEffects();
-                this.setupMagneticEffect();
-                this.animate();
-            }
-
-            setupHoverEffects() {
-                const hoverElements = document.querySelectorAll('[data-hover], .social-btn, .info-card, .profile-img-wrapper');
-                hoverElements.forEach(el => {
-                    // Desktop hover
-                    el.addEventListener('mouseenter', () => {
-                        this.cursor?.classList.add('hover');
-                        this.cursorDot?.classList.add('hover');
-                    });
-                    el.addEventListener('mouseleave', () => {
-                        this.cursor?.classList.remove('hover');
-                        this.cursorDot?.classList.remove('hover');
-                    });
-                    // Mobile touch hover
-                    el.addEventListener('touchstart', () => {
-                        el.classList.add('touch-hover');
-                    });
-                    el.addEventListener('touchend', () => {
-                        el.classList.remove('touch-hover');
-                    });
-                });
-            }
-
-            setupMagneticEffect() {
-                const magneticElements = document.querySelectorAll('[data-magnetic]');
-                magneticElements.forEach(el => {
-                    el.addEventListener('mousemove', (e) => {
-                        const rect = el.getBoundingClientRect();
-                        const x = e.clientX - rect.left - rect.width / 2;
-                        const y = e.clientY - rect.top - rect.height / 2;
-                        el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
-                    });
-                    el.addEventListener('mouseleave', () => {
-                        el.style.transform = '';
-                    });
-                });
-            }
-
-            animate() {
-                if (!this.isActive) return;
-                this.cursorX += (this.mouseX - this.cursorX) * 0.15;
-                this.cursorY += (this.mouseY - this.cursorY) * 0.15;
-                const dotX = this.mouseX;
-                const dotY = this.mouseY;
-                this.trailX += (this.mouseX - this.trailX) * 0.08;
-                this.trailY += (this.mouseY - this.trailY) * 0.08;
-                this.cursor.style.left = this.cursorX + 'px';
-                this.cursor.style.top = this.cursorY + 'px';
-                this.cursorDot.style.left = dotX + 'px';
-                this.cursorDot.style.top = dotY + 'px';
-                this.cursorTrail.style.left = this.trailX + 'px';
-                this.cursorTrail.style.top = this.trailY + 'px';
-                this.rafId = requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            const cursor = new CustomCursor();
-            document.documentElement.style.scrollBehavior = 'smooth';
-        });
+        // Smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
     </script>
 
 </body>
